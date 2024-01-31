@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <h1>Image to Grayscale Converter</h1>
+    <h1>Color to Black N White Converter</h1>
     <input type="file" id="imageInput" accept="image/*" onchange="convertToGrayscale()">
     <br>
     <canvas id="grayscaleCanvas" width="500" height="500"></canvas>
@@ -53,8 +53,8 @@
 
                     var downloadLink = document.createElement('a');
                     downloadLink.href = canvas.toDataURL();
-                    downloadLink.download = 'grayscale_image.png';
-                    downloadLink.textContent = 'Download Grayscale Image';
+                    downloadLink.download = 'image.png';
+                    downloadLink.textContent = 'Download Image';
 
                     output.appendChild(downloadLink);
                 };
