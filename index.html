@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        canvas {
+            border: 2px solid #ddd;
+            margin-top: 20px;
+        }
+        #output{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image to Grayscale Converter</h1>
+    <input type="file" id="imageInput" accept="image/*" onchange="convertToGrayscale()">
+    <br>
+    <canvas id="grayscaleCanvas" width="500" height="500"></canvas>
+    <div id="output">
+
+    </div>
+    <script>
+        function convertToGrayscale() {
+            var input = document.getElementById('imageInput');
+
+            if (input.files && input.files[0]) {
+                var canvas = document.getElementById('grayscaleCanvas');
+                var context = canvas.getContext('2d');
+
+                var img = new Image();
+
+                img.onload = function () {
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                    var data = imageData.data;
+
+                    for (var i = 0; i < data.length; i += 4) {
+                        var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                        data[i] = avg;
+                        data[i + 1] = avg;
+                        data[i + 2] = avg;
+                    }
+
+                    context.putImageData(imageData, 0, 0);
+
+                    var downloadLink = document.createElement('a');
+                    downloadLink.href = canvas.toDataURL();
+                    downloadLink.download = 'grayscale_image.png';
+                    downloadLink.textContent = 'Download Grayscale Image';
+
+                    output.appendChild(downloadLink);
+                };
+
+                img.src = URL.createObjectURL(input.files[0]);
+            }
+        }
+    </script>
+</body>
+
+</html>
